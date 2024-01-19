@@ -6,9 +6,12 @@ import Table from "./Table";
 
 function App() {
 
-  const [wallet, setWallet] = useState(500);
+  const [wallet, setWallet] = useState(100);
 
   const API = "http://localhost:3001/sushis";
+
+  const[emptyPlates,setEmptyPlates] = useState([])
+
 
 const [sushiList, setSushiList] = useState([])
 
@@ -31,8 +34,8 @@ useEffect(() => {
 
   function sushiClicked(event){
 
-    console.log(event)
-    console.log(event.target.value)
+
+
 
     const eatenSushiId =  parseInt(event.currentTarget.getAttribute("value"))
 
@@ -40,9 +43,6 @@ useEffect(() => {
 
     const eatenSushi = sushiList.find((sushi) => sushi.id === eatenSushiId)
 
-    console.log(event.target.value)
-    
-    console.log(eatenSushi)
 
     if (wallet >= eatenSushi.price) {
 
@@ -55,6 +55,8 @@ useEffect(() => {
 
       setWallet((wallet) => wallet - eatenSushi.price);
 
+      setEmptyPlates([...emptyPlates,1])
+
     } else {
       alert("Need more 💸");
     }
@@ -65,7 +67,7 @@ useEffect(() => {
   return (
     <div className="app">
       <SushiContainer  setSushiList={setSushiList} sushiList={sushiList} sushiClicked={sushiClicked} />
-      <Table wallet ={wallet} setWallet={setWallet} />
+      <Table wallet ={wallet} setWallet={setWallet} plates={emptyPlates} />
     </div>
   );
 }
