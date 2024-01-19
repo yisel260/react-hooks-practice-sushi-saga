@@ -2,39 +2,29 @@ import React,{useEffect, useState} from "react";
 import MoreButton from "./MoreButton";
 import Sushi from "./Sushi"
 
-function SushiContainer() {
+function SushiContainer({sushiList, sushiClicked, setSushiList,}) {
 
-  
-  const [sushiList, setSushiList] = useState([])
-  const [wallet, setWallet] = useState(100);
+  const [doneCount, setDoneCount] = useState(0);
 
-  function sushiClicked(eatenSushi){
-    if (wallet >= eatenSushi.price) {
-      const updatedSushis = sushiList.map((sushi) => {
-        if (sushi.id === eatenSushi.id) return { ...sushi, eaten: true };
-        return sushi;
-      });
+  function getMoreSushi(){
 
-      setSushiList(updatedSushis);
+    
 
-      setWallet((wallet) => wallet - eatenSushi.price);
-    } else {
-      alert("Need more 💸");
-    }
+    fetch( `http://localhost:3001/sushis/`)
+    .then((r) => r.json())
+    .then((data)=> {
+       
+      setDoneCount(doneCount+4)
+    console.log(doneCount)
+     const newSushi= data.filter((sushi)=>{
+       return(sushi.id > doneCount && sushi.id <= doneCount+4) 
+      })
+      console.log(newSushi)
+      setSushiList(newSushi)
+    })
+
   }
 
-
-  useEffect(() => {
-    fetch("http://localhost:3001/sushis/?_limit=4")
-      .then((r) => r.json())
-      .then((sushis) => {
-        const updatedSushis = sushis.map((sushi) => {
-          return { ...sushi, eaten: false };
-        });
-        setSushiList(updatedSushis);
-        console.log(sushiList)
-      });
-  }, []) 
 
   return (
     <div className="belt">
@@ -50,7 +40,7 @@ function SushiContainer() {
           sushiClicked={sushiClicked}/>
         )
       })}
-      <MoreButton />
+      <MoreButton  getMoreSushi={getMoreSushi}/>
     </div>
   );
 }
