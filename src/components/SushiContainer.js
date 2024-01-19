@@ -4,7 +4,7 @@ import Sushi from "./Sushi"
 
 function SushiContainer({sushiList, sushiClicked, setSushiList,}) {
 
-  const [doneCount, setDoneCount] = useState(0);
+  const [doneCount, setDoneCount] = useState(4);
 
   function getMoreSushi(){
 
@@ -37,7 +37,8 @@ function SushiContainer({sushiList, sushiClicked, setSushiList,}) {
           price={sushi.price} 
           key={sushi.id} 
           eaten={sushi.eaten}
-          sushiClicked={sushiClicked}/>
+          sushiClicked={sushiClicked}
+          id={sushi.id}/>
         )
       })}
       <MoreButton  getMoreSushi={getMoreSushi}/>

@@ -1,9 +1,10 @@
 import React from "react";
 
-function Sushi({sushiName, image, price, sushiClicked, eaten}) {
+function Sushi({sushiName, image, price, sushiClicked, eaten, id}) {
+
   return (
-    <div className="sushi">
-      <div className="plate" onClick={(sushi)=>{sushiClicked(sushi)}}>
+    <div onClick={(event) => sushiClicked(event)} value = {id} className="sushi">
+      <div className="plate">
         {/* Tell me if this sushi has been eaten! */}
         {}
         {eaten? null : (
